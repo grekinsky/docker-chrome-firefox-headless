@@ -6,7 +6,7 @@ This image is for running e2e tests using javascript frameworks like Cucumber.js
 ### Example:
 
 ```
-FROM grekinsky/chrome-firefox-headless
+FROM grekinsky/docker-chrome-firefox-headless:latest
 
 ENV HOME=/home/ubrowser/src/app
 
