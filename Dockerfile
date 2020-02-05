@@ -1,19 +1,19 @@
-FROM node:10.15.1-stretch-slim
+FROM node:10.18.1-stretch-slim
 
 # Install utilities
 RUN mkdir -p /usr/share/man/man1
 RUN apt-get update --fix-missing && apt-get -y upgrade \
-    && apt-get install -y default-jre-headless libdbus-glib-1-2 bzip2 libxt6 --no-install-recommends
+    && apt-get install -y wget gnupg2 default-jre-headless libdbus-glib-1-2 bzip2 libxt6 --no-install-recommends
 
 # Install chrome
-RUN CHROME_VERSION=75.0.3770.100-1 \
+RUN CHROME_VERSION=80.0.3987.87-1 \
     && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
     && sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
     && apt-get update \
     && apt-get install -y google-chrome-stable=$CHROME_VERSION --no-install-recommends
 
 # Install firefox
-RUN FIREFOX_VERSION=67.0.4 \
+RUN FIREFOX_VERSION=72.0.2 \
     && wget --no-verbose -O /tmp/firefox.tar.bz2 https://download-installer.cdn.mozilla.net/pub/firefox/releases/$FIREFOX_VERSION/linux-x86_64/en-US/firefox-$FIREFOX_VERSION.tar.bz2 \
     && tar -C /opt -xjf /tmp/firefox.tar.bz2 \
     && rm /tmp/firefox.tar.bz2 \
@@ -21,7 +21,7 @@ RUN FIREFOX_VERSION=67.0.4 \
     && ln -fs /opt/firefox-$FIREFOX_VERSION/firefox /usr/bin/firefox
 
 # Install Gecko Driver
-RUN GK_VERSION=0.24.0 \
+RUN GK_VERSION=0.26.0 \
     && echo "Using GeckoDriver version: "$GK_VERSION \
     && wget --no-verbose -O /tmp/geckodriver.tar.gz https://github.com/mozilla/geckodriver/releases/download/v$GK_VERSION/geckodriver-v$GK_VERSION-linux64.tar.gz \
     && rm -rf /opt/geckodriver \
